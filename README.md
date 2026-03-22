@@ -1,149 +1,111 @@
 # Generador de Certificados
 
-Aplicación de escritorio en C# (.NET 8 / WinForms) que genera certificados PDF automáticamente a partir de un archivo Excel y una plantilla PNG.
+Aplicación de escritorio en C# (.NET 8 / WinForms) para generar certificados PDF de forma masiva a partir de un Excel y una plantilla de imagen.
 
----
+## Características actuales
 
-## Características
+- Lectura de alumnos desde Excel (`.xlsx`) con columnas: **Nombre, Grado, Código**.
+- Generación de **un PDF por alumno** usando plantilla de imagen (`.png`, `.jpg`, `.jpeg`).
+- Renderizado de 4 campos sobre la plantilla:
+    - Nombre
+    - Grado
+    - Código
+    - Número de examen
+- Validaciones antes de generar:
+    - Excel, plantilla y carpeta destino obligatorios.
+    - Número de examen obligatorio y numérico (se formatea como `12º`).
+    - Código por alumno con formato `AA00` (ejemplo: `PL01`).
+- Vista previa en la interfaz con guías de posición para ajustar texto.
+- Barra de progreso y resumen final de éxitos/errores.
 
-- Lee una lista de alumnos desde un archivo Excel (`.xlsx`).
-- Usa una imagen PNG como plantilla visual del certificado.
-- Escribe el **nombre** y el **grado** del alumno sobre la plantilla.
-- Genera un archivo **PDF individual** por cada alumno.
+## Requisitos
 
----
+- Windows 10/11
+- .NET 8 SDK
 
-## Estructura del Proyecto
-
-```
-CertificateGenerator/
-├── CertificateGenerator.sln
-└── CertificateGenerator/
-    ├── CertificateGenerator.csproj
-    ├── Program.cs                          # Punto de entrada
-    ├── MainForm.cs                         # Lógica de la interfaz
-    ├── MainForm.Designer.cs                # Diseño de la interfaz
-    ├── Models/
-    │   └── Alumno.cs                       # Modelo de datos del alumno
-    └── Services/
-        ├── ExcelReaderService.cs           # Lectura del archivo Excel
-        └── CertificateGeneratorService.cs  # Generación de certificados PDF
-```
-
----
-
-## Requisitos Previos
-
-- **Windows 10/11**
-- **.NET 8 SDK** 
-
-Verifica la instalación:
+Verificar instalación:
 
 ```powershell
 dotnet --version
 ```
 
----
-
-## Instalación y Ejecución
+## Ejecución
 
 ```powershell
-# 1. Clonar o descargar el proyecto
-cd CertificateGenerator
-
-# 2. Restaurar paquetes NuGet
 dotnet restore
-
-# 3. Compilar
 dotnet build
-
-# 4. Ejecutar
 dotnet run --project CertificateGenerator
 ```
 
----
+## Formato del Excel
 
-## Paquetes NuGet Utilizados
+Encabezados en fila 1 y datos desde fila 2.
 
-| Paquete | Versión | Uso |
-|---------|---------|-----|
-| [ClosedXML](https://github.com/ClosedXML/ClosedXML) | 0.104.2 | Leer archivos Excel `.xlsx` |
-| [QuestPDF](https://www.questpdf.com/) | 2024.12.2 | Generar documentos PDF |
-| [SkiaSharp](https://github.com/mono/SkiaSharp) | 3.116.1 | Dibujar texto sobre la imagen plantilla |
+| Nombre | Grado | Código |
+|--------|-------|--------|
+| Adrián López | Cinta Azul | PL01 |
+| María Pérez | Cinta Roja | PL02 |
+| Carlos Díaz | Cinta Negra | PL03 |
 
----
+Notas:
 
-## Cómo Usar
+- La lectura se realiza sobre la primera hoja del archivo.
+- El ciclo termina cuando la columna A (Nombre) aparece vacía.
 
-### 1. Preparar el Excel
+## Flujo de uso
 
-Crea un archivo `.xlsx` con esta estructura (fila 1 = encabezados):
+1. Seleccionar archivo Excel.
+2. Seleccionar plantilla de certificado.
+3. Seleccionar carpeta destino.
+4. Capturar número de examen.
+5. Ajustar posiciones/tamaños (opcional) y revisar preview.
+6. Generar certificados.
 
-| Nombre | Grado |
-|--------|-------|
-| Adrián López | Cinta Azul |
-| María Pérez | Cinta Roja |
-| Carlos Díaz | Cinta Negra |
+## Nombres de archivos generados
 
-### 2. Preparar la Plantilla
+Formato:
 
-Usa una imagen **PNG** con el diseño visual del certificado. El texto del nombre y grado se dibujará centrado sobre esta imagen.
-
-### 3. Ejecutar la Aplicación
-
-1. Clic en **Seleccionar Excel** → elegir el archivo `.xlsx`.
-2. Clic en **Seleccionar Plantilla** → elegir la imagen PNG.
-3. Clic en **Seleccionar Carpeta** → elegir dónde guardar los PDFs.
-4. Clic en **Generar Certificados** → se crearán los PDFs automáticamente.
-
-### 4. Resultado
-
-Los archivos se generan con el formato:
-
+```text
+certificado_{NombreNormalizado}.pdf
 ```
+
+Ejemplo:
+
+```text
 certificado_Adrian_Lopez.pdf
-certificado_Maria_Perez.pdf
-certificado_Carlos_Diaz.pdf
 ```
 
----
+Se eliminan acentos y algunos caracteres para producir nombres seguros.
 
-## Personalización del Texto
+## Ajustes de layout
 
-En el archivo `Services/CertificateGeneratorService.cs` puedes ajustar la posición y estilo del texto:
+La app permite ajustar desde la interfaz (preview en tiempo real):
 
-```csharp
-// Posición vertical (0.0 = arriba, 0.5 = centro, 1.0 = abajo)
-public float NombrePosicionY { get; set; } = 0.50f;
-public float GradoPosicionY  { get; set; } = 0.58f;
+- Posición X/Y
+- Tamaño de fuente
+- Ancho máximo del texto
 
-// Tamaño de fuente (en píxeles)
-public float NombreFontSize { get; set; } = 72f;
-public float GradoFontSize  { get; set; } = 48f;
+Campos configurables:
 
-// Color del texto (hexadecimal)
-public string NombreColor { get; set; } = "#1a1a2e";
-public string GradoColor  { get; set; } = "#16213e";
-```
+- Nombre
+- Grado
+- Código
+- Número de examen
 
-### Ejemplos de Ajuste
+Referencia técnica: `CertificateLayoutOptions` en `CertificateGenerator/Services/CertificateGeneratorService.cs`.
 
-| Qué cambiar | Propiedad | Valor ejemplo |
-|-------------|-----------|---------------|
-| Nombre más arriba | `NombrePosicionY` | `0.40f` |
-| Nombre más abajo | `NombrePosicionY` | `0.60f` |
-| Fuente más grande | `NombreFontSize` | `96f` |
-| Texto en rojo | `NombreColor` | `"#cc0000"` |
+## Dependencias principales
 
-El texto siempre se centra horizontalmente de forma automática.
+- ClosedXML: lectura de Excel.
+- SkiaSharp: dibujo de texto sobre plantilla.
+- QuestPDF: creación de PDF final.
 
----
-
-## Solución de Problemas
+## Solución de problemas
 
 | Problema | Solución |
 |----------|----------|
-| `No .NET SDKs were found` | Instala el [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0) (no solo el Runtime) |
-| El texto no se ve en el PDF | Ajusta `NombrePosicionY` / `GradoPosicionY` según el tamaño de tu plantilla |
-| Error al leer el Excel | Verifica que la fila 1 tenga encabezados y los datos empiecen en la fila 2 |
-| Caracteres extraños en el nombre del archivo | Los acentos se eliminan automáticamente del nombre de archivo |
+| `No .NET SDKs were found` | Instala .NET 8 SDK (no solo Runtime). |
+| "Hay alumnos con código inválido" | Corrige códigos al formato `AA00` (2 letras mayúsculas + 2 números). |
+| "Capture el número de examen" o error de examen | Ingresa solo dígitos (ej. `12`, se guardará como `12º`). |
+| El texto no cae en la posición correcta | Ajusta X/Y y ancho máximo desde la interfaz usando la vista previa. |
+| Error al leer Excel | Revisa encabezados en fila 1 y datos desde fila 2 en la primera hoja. |
