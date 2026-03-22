@@ -1,0 +1,43 @@
+# Build outputs
+[Bb]in/
+[Oo]bj/
+out/
+publish/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Rider / ReSharper
+.idea/
+*.sln.iml
+_ReSharper*/
+*.DotSettings.user
+
+# VS Code workspace settings (machine-local)
+.vscode/
+
+# NuGet
+*.nupkg
+*.snupkg
+packages/
+!packages/build/
+!packages/repositories.config
+
+# Logs and diagnostics
+*.log
+*.tlog
+*.tmp
+*.cache
+
+# Test results
+[Tt]est[Rr]esult*/
+[Bb]enchmarkDotNet.Artifacts/
+
+# OS files
+.DS_Store
+Thumbs.db
+Desktop.ini
