@@ -8,6 +8,7 @@ public class Alumno
     public string Nombre { get; set; } = string.Empty;
     public string Grado { get; set; } = string.Empty;
     public string Codigo { get; set; } = string.Empty;
+    public string Profesor { get; set; } = string.Empty;
 
     /// <summary>
     /// Genera el nombre de archivo seguro para el certificado PDF.

@@ -13,6 +13,8 @@ public class CertificateGeneratorService
     public CertificateLayoutOptions Layout { get; } = new();
 
     public string NumeroExamen { get; set; } = string.Empty;
+    public string FechaExamen { get; set; } = string.Empty;
+    public string? RutaFirma { get; set; }
 
     /// <summary>
     /// Genera un certificado PDF para un alumno dado.
@@ -24,7 +26,7 @@ public class CertificateGeneratorService
     public string GenerarCertificado(Alumno alumno, string rutaPlantilla, string carpetaDestino)
     {
         // 1. Cargar la plantilla y dibujar el texto
-        byte[] imagenConTexto = DibujarTextoEnPlantilla(alumno, rutaPlantilla, NumeroExamen, false);
+        byte[] imagenConTexto = DibujarTextoEnPlantilla(alumno, rutaPlantilla, NumeroExamen, FechaExamen, false);
 
         // 2. Generar el PDF con QuestPDF
         var nombreArchivo = alumno.GenerarNombreArchivo();
@@ -67,6 +69,7 @@ public class CertificateGeneratorService
         Alumno alumno,
         string rutaPlantilla,
         string numeroExamen,
+        string fechaExamen,
         bool dibujarGuias)
     {
         using var plantillaStream = File.OpenRead(rutaPlantilla);
@@ -145,6 +148,40 @@ public class CertificateGeneratorService
             dibujarGuias,
             "EXAMEN");
 
+        DibujarCampoTexto(
+            canvas,
+            fechaExamen,
+            ancho,
+            alto,
+            Layout.FechaExamenX,
+            Layout.FechaExamenY,
+            Layout.FechaExamenFontSize,
+            Layout.FechaExamenMaxWidth,
+            Layout.FechaExamenColor,
+            Layout.FechaExamenFontFamily,
+            false,
+            SKTextAlign.Left,
+            dibujarGuias,
+            "FECHA");
+
+        DibujarCampoTexto(
+            canvas,
+            alumno.Profesor,
+            ancho,
+            alto,
+            Layout.ProfesorX,
+            Layout.ProfesorY,
+            Layout.ProfesorFontSize,
+            Layout.ProfesorMaxWidth,
+            Layout.ProfesorColor,
+            Layout.ProfesorFontFamily,
+            false,
+            SKTextAlign.Center,
+            dibujarGuias,
+            "PROFESOR");
+
+        DibujarFirma(canvas, ancho, alto, dibujarGuias);
+
         canvas.Flush();
 
         // Codificar como PNG en memoria
@@ -159,11 +196,62 @@ public class CertificateGeneratorService
         {
             Nombre = "NOMBRE ALUMNO DEMO",
             Grado = "CINTA NEGRA",
-            Codigo = "PL01"
+            Codigo = "PL001",
+            Profesor = "Prof. Marybell Cardona Ferrer"
         };
 
-        var examenDemo = string.IsNullOrWhiteSpace(NumeroExamen) ? "12" : NumeroExamen;
-        return DibujarTextoEnPlantilla(alumnoDemo, rutaPlantilla, examenDemo, true);
+        var examenDemo = string.IsNullOrWhiteSpace(NumeroExamen) ? "12º" : NumeroExamen;
+        var fechaDemo = string.IsNullOrWhiteSpace(FechaExamen) ? "26/03/2026" : FechaExamen;
+        return DibujarTextoEnPlantilla(alumnoDemo, rutaPlantilla, examenDemo, fechaDemo, true);
+    }
+
+    private void DibujarFirma(SKCanvas canvas, int ancho, int alto, bool dibujarGuias)
+    {
+        if (string.IsNullOrWhiteSpace(RutaFirma) || !File.Exists(RutaFirma))
+        {
+            return;
+        }
+
+        using var firmaBitmap = SKBitmap.Decode(RutaFirma);
+        if (firmaBitmap is null)
+        {
+            return;
+        }
+
+        float destWidth = ancho * Layout.FirmaWidth;
+        float scale = destWidth / firmaBitmap.Width;
+        float destHeight = firmaBitmap.Height * scale;
+
+        float x = ancho * Layout.FirmaX;
+        float yBottom = alto * Layout.FirmaY;
+        float yTop = yBottom - destHeight;
+
+        var destRect = new SKRect(x, yTop, x + destWidth, yBottom);
+        canvas.DrawBitmap(firmaBitmap, destRect);
+
+        if (!dibujarGuias)
+        {
+            return;
+        }
+
+        using var guidePaint = new SKPaint
+        {
+            Color = SKColor.Parse("#1E88E5"),
+            IsAntialias = true,
+            Style = SKPaintStyle.Stroke,
+            StrokeWidth = 2
+        };
+        canvas.DrawRect(destRect, guidePaint);
+
+        using var labelPaint = new SKPaint
+        {
+            Color = SKColor.Parse("#1E88E5"),
+            TextSize = 14,
+            IsAntialias = true,
+            TextAlign = SKTextAlign.Left,
+            Typeface = SKTypeface.FromFamilyName("Segoe UI", SKFontStyle.Bold)
+        };
+        canvas.DrawText("FIRMA", destRect.Left, destRect.Top - 4, labelPaint);
     }
 
     private static void DibujarCampoTexto(
@@ -264,31 +352,49 @@ public class CertificateGeneratorService
 
 public class CertificateLayoutOptions
 {
-    public float NombreX { get; set; } = 0.50f;
+    public float NombreX { get; set; } = 0.52f;
     public float NombreY { get; set; } = 0.43f;
-    public float NombreFontSize { get; set; } = 100f;
-    public float NombreMaxWidth { get; set; } = 0.60f;
-    public string NombreFontFamily { get; set; } = "Monotype Corsiva";
+    public float NombreFontSize { get; set; } = 120f;
+    public float NombreMaxWidth { get; set; } = 0.70f;
+    public string NombreFontFamily { get; set; } = "Edwardian Script ITC";
     public string NombreColor { get; set; } = "#1a1a2e";
 
     public float GradoX { get; set; } = 0.50f;
     public float GradoY { get; set; } = 0.51f;
-    public float GradoFontSize { get; set; } = 90f;
-    public float GradoMaxWidth { get; set; } = 0.60f;
-    public string GradoFontFamily { get; set; } = "Monotype Corsiva";
+    public float GradoFontSize { get; set; } = 100f;
+    public float GradoMaxWidth { get; set; } = 0.75f;
+    public string GradoFontFamily { get; set; } = "Edwardian Script ITC";
     public string GradoColor { get; set; } = "#16213e";
 
     public float CodigoX { get; set; } = 0.78f;
     public float CodigoY { get; set; } = 0.30f;
     public float CodigoFontSize { get; set; } = 80f;
-    public float CodigoMaxWidth { get; set; } = 0.10f;
-    public string CodigoFontFamily { get; set; } = "Monotype Corsiva";
+    public float CodigoMaxWidth { get; set; } = 0.12f;
+    public string CodigoFontFamily { get; set; } = "Arial";
     public string CodigoColor { get; set; } = "#1a1a2e";
 
-    public float NumeroExamenX { get; set; } = 0.48f;
-    public float NumeroExamenY { get; set; } = 0.63f;
-    public float NumeroExamenFontSize { get; set; } = 80f;
-    public float NumeroExamenMaxWidth { get; set; } = 0.15f;
-    public string NumeroExamenFontFamily { get; set; } = "Monotype Corsiva";
+    public float NumeroExamenX { get; set; } = 0.50f;
+    public float NumeroExamenY { get; set; } = 0.62f;
+    public float NumeroExamenFontSize { get; set; } = 100f;
+    public float NumeroExamenMaxWidth { get; set; } = 0.08f;
+    public string NumeroExamenFontFamily { get; set; } = "Edwardian Script ITC";
     public string NumeroExamenColor { get; set; } = "#1a1a2e";
+
+    public float FechaExamenX { get; set; } = 0.20f;
+    public float FechaExamenY { get; set; } = 0.68f;
+    public float FechaExamenFontSize { get; set; } = 100f;
+    public float FechaExamenMaxWidth { get; set; } = 0.60f;
+    public string FechaExamenFontFamily { get; set; } = "Edwardian Script ITC";
+    public string FechaExamenColor { get; set; } = "#1a1a2e";
+
+    public float ProfesorX { get; set; } = 0.17f;
+    public float ProfesorY { get; set; } = 0.79f;
+    public float ProfesorFontSize { get; set; } = 90f;
+    public float ProfesorMaxWidth { get; set; } = 0.40f;
+    public string ProfesorFontFamily { get; set; } = "Edwardian Script ITC";
+    public string ProfesorColor { get; set; } = "#1a1a2e";
+
+    public float FirmaX { get; set; } = 0.17f;
+    public float FirmaY { get; set; } = 0.79f;
+    public float FirmaWidth { get; set; } = 0.25f;
 }

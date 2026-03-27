@@ -11,7 +11,7 @@ public static class ExcelReaderService
     /// <summary>
     /// Lee un archivo .xlsx y retorna la lista de alumnos.
     /// Espera Columna A = Nombre, Columna B = Grado, Columna C = Codigo,
-    /// con encabezados en fila 1.
+    /// Columna D = Profesor, con encabezados en fila 1.
     /// </summary>
     public static List<Alumno> LeerAlumnos(string rutaExcel)
     {
@@ -27,6 +27,7 @@ public static class ExcelReaderService
             var nombre = worksheet.Cell(fila, 1).GetString().Trim();
             var grado = worksheet.Cell(fila, 2).GetString().Trim();
             var codigo = worksheet.Cell(fila, 3).GetString().Trim();
+            var profesor = worksheet.Cell(fila, 4).GetString().Trim();
 
             if (!string.IsNullOrWhiteSpace(nombre))
             {
@@ -34,7 +35,8 @@ public static class ExcelReaderService
                 {
                     Nombre = nombre,
                     Grado = grado,
-                    Codigo = codigo
+                    Codigo = codigo,
+                    Profesor = profesor
                 });
             }
 

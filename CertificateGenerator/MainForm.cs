@@ -1,6 +1,7 @@
 using CertificateGenerator.Models;
 using CertificateGenerator.Services;
 using System.Text.RegularExpressions;
+using System.Threading;
 
 namespace CertificateGenerator;
 
@@ -10,10 +11,12 @@ public partial class MainForm : Form
     private string? _rutaPlantilla;
     private string? _carpetaDestino;
     private readonly CertificateGeneratorService _generador = new();
+    private CancellationTokenSource? _cancelacionCts;
 
     public MainForm()
     {
         InitializeComponent();
+        _generador.RutaFirma = ObtenerRutaFirma();
         ActualizarPreview();
     }
 
@@ -105,6 +108,11 @@ public partial class MainForm : Form
             MostrarError("Capture el número de examen.");
             return;
         }
+        if (string.IsNullOrWhiteSpace(txtFechaExamen.Text))
+        {
+            MostrarError("Capture la fecha del examen.");
+            return;
+        }
 
         var numeroExamenFormateado = FormatearNumeroExamen(txtNumeroExamen.Text);
         if (string.IsNullOrWhiteSpace(numeroExamenFormateado))
@@ -115,8 +123,12 @@ public partial class MainForm : Form
 
         // Deshabilitar botón mientras genera
         btnGenerar.Enabled = false;
+        btnCancelar.Enabled = true;
         progressBar.Value = 0;
         lblEstado.Text = "Leyendo archivo Excel...";
+        _cancelacionCts?.Dispose();
+        _cancelacionCts = new CancellationTokenSource();
+        var token = _cancelacionCts.Token;
 
         try
         {
@@ -131,14 +143,14 @@ public partial class MainForm : Form
             }
 
             var codigosInvalidos = alumnos
-                .Where(a => string.IsNullOrWhiteSpace(a.Codigo) || !Regex.IsMatch(a.Codigo, "^[A-Z]{2}[0-9]{2}$"))
+                .Where(a => string.IsNullOrWhiteSpace(a.Codigo) || !Regex.IsMatch(a.Codigo, "^[A-Z]{2}[0-9]{3}$"))
                 .Select(a => a.Nombre)
                 .ToList();
 
             if (codigosInvalidos.Count > 0)
             {
                 MostrarError(
-                    "Hay alumnos con código inválido. Formato esperado: 2 letras + 2 números (ej. PL01).\n\n" +
+                    "Hay alumnos con código inválido. Formato esperado: 2 letras + 3 números (ej. PL001).\n\n" +
                     string.Join("\n", codigosInvalidos.Take(8)) +
                     (codigosInvalidos.Count > 8 ? "\n..." : string.Empty));
                 return;
@@ -150,6 +162,7 @@ public partial class MainForm : Form
             var errores = new List<string>();
             AplicarAjustesDesdeInterfaz();
             _generador.NumeroExamen = numeroExamenFormateado;
+            _generador.FechaExamen = txtFechaExamen.Text.Trim();
 
             string rutaPlantilla = _rutaPlantilla;
             string carpetaDestino = _carpetaDestino;
@@ -158,6 +171,8 @@ public partial class MainForm : Form
             {
                 for (int i = 0; i < alumnos.Count; i++)
                 {
+                    token.ThrowIfCancellationRequested();
+
                     var alumno = alumnos[i];
 
                     try
@@ -178,7 +193,13 @@ public partial class MainForm : Form
                         lblEstado.Text = $"Generando {progreso}/{alumnos.Count}: {nombre}";
                     });
                 }
-            });
+            }, token);
+
+            if (token.IsCancellationRequested)
+            {
+                lblEstado.Text = "Operación cancelada.";
+                return;
+            }
 
             // 3. Mostrar resultado
             if (errores.Count == 0)
@@ -203,6 +224,15 @@ public partial class MainForm : Form
                     MessageBoxIcon.Warning);
             }
         }
+        catch (OperationCanceledException)
+        {
+            lblEstado.Text = "Operación cancelada por el usuario.";
+            MessageBox.Show(
+                "La generación de certificados fue cancelada.",
+                "Cancelado",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information);
+        }
         catch (Exception ex)
         {
             MostrarError($"Error inesperado: {ex.Message}");
@@ -211,6 +241,9 @@ public partial class MainForm : Form
         finally
         {
             btnGenerar.Enabled = true;
+            btnCancelar.Enabled = false;
+            _cancelacionCts?.Dispose();
+            _cancelacionCts = null;
         }
     }
 
@@ -222,6 +255,13 @@ public partial class MainForm : Form
     private void BtnActualizarPreview_Click(object? sender, EventArgs e)
     {
         ActualizarPreview();
+    }
+
+    private void BtnCancelar_Click(object? sender, EventArgs e)
+    {
+        _cancelacionCts?.Cancel();
+        btnCancelar.Enabled = false;
+        lblEstado.Text = "Cancelando operación...";
     }
 
     private void CampoAjuste_Changed(object? sender, EventArgs e)
@@ -251,7 +291,35 @@ public partial class MainForm : Form
         _generador.Layout.NumeroExamenFontSize = (float)numExamenFuente.Value;
         _generador.Layout.NumeroExamenMaxWidth = (float)numExamenAncho.Value;
 
+        _generador.Layout.FechaExamenX = (float)numFechaX.Value;
+        _generador.Layout.FechaExamenY = ConvertirYDesdePlanoCartesiano((float)numFechaY.Value);
+        _generador.Layout.FechaExamenFontSize = (float)numFechaFuente.Value;
+        _generador.Layout.FechaExamenMaxWidth = (float)numFechaAncho.Value;
+
+        _generador.Layout.ProfesorX = (float)numProfesorX.Value;
+        _generador.Layout.ProfesorY = ConvertirYDesdePlanoCartesiano((float)numProfesorY.Value);
+        _generador.Layout.ProfesorFontSize = (float)numProfesorFuente.Value;
+        _generador.Layout.ProfesorMaxWidth = (float)numProfesorAncho.Value;
+
+        _generador.Layout.FirmaX = (float)numFirmaX.Value;
+        _generador.Layout.FirmaY = ConvertirYDesdePlanoCartesiano((float)numFirmaY.Value);
+        _generador.Layout.FirmaWidth = (float)numFirmaTamano.Value;
+
         _generador.NumeroExamen = FormatearNumeroExamen(txtNumeroExamen.Text);
+        _generador.FechaExamen = txtFechaExamen.Text.Trim();
+    }
+
+    private string? ObtenerRutaFirma()
+    {
+        string baseDir = AppContext.BaseDirectory;
+        string[] candidates =
+        {
+            Path.Combine(baseDir, "Media", "Firma.png"),
+            Path.Combine(baseDir, "Firma.png"),
+            Path.Combine(Directory.GetCurrentDirectory(), "Media", "Firma.png")
+        };
+
+        return candidates.FirstOrDefault(File.Exists);
     }
 
     private static float ConvertirYDesdePlanoCartesiano(float valorY)
