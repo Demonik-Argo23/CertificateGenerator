@@ -16,6 +16,7 @@ partial class MainForm
     private void InitializeComponent()
     {
         this.lblTitulo = new Label();
+        this.pictureLogo = new PictureBox();
         this.grpArchivos = new GroupBox();
         this.lblFechaExamen = new Label();
         this.txtFechaExamen = new TextBox();
@@ -35,6 +36,7 @@ partial class MainForm
         this.lblAjusteExamen = new Label();
         this.lblAjusteFecha = new Label();
         this.lblAjusteProfesor = new Label();
+        this.lblAjusteProfesor2 = new Label();
         this.lblAjusteFirma = new Label();
         this.lblColX = new Label();
         this.lblColY = new Label();
@@ -64,6 +66,8 @@ partial class MainForm
         this.numProfesorY = new NumericUpDown();
         this.numProfesorFuente = new NumericUpDown();
         this.numProfesorAncho = new NumericUpDown();
+        this.numProfesor2X = new NumericUpDown();
+        this.numProfesor2Y = new NumericUpDown();
         this.numFirmaX = new NumericUpDown();
         this.numFirmaY = new NumericUpDown();
         this.numFirmaTamano = new NumericUpDown();
@@ -78,6 +82,7 @@ partial class MainForm
         this.grpArchivos.SuspendLayout();
         this.grpAjustes.SuspendLayout();
         this.tableAjustes.SuspendLayout();
+        ((System.ComponentModel.ISupportInitialize)this.pictureLogo).BeginInit();
         ((System.ComponentModel.ISupportInitialize)this.numNombreX).BeginInit();
         ((System.ComponentModel.ISupportInitialize)this.numNombreY).BeginInit();
         ((System.ComponentModel.ISupportInitialize)this.numNombreFuente).BeginInit();
@@ -102,6 +107,8 @@ partial class MainForm
         ((System.ComponentModel.ISupportInitialize)this.numProfesorY).BeginInit();
         ((System.ComponentModel.ISupportInitialize)this.numProfesorFuente).BeginInit();
         ((System.ComponentModel.ISupportInitialize)this.numProfesorAncho).BeginInit();
+        ((System.ComponentModel.ISupportInitialize)this.numProfesor2X).BeginInit();
+        ((System.ComponentModel.ISupportInitialize)this.numProfesor2Y).BeginInit();
         ((System.ComponentModel.ISupportInitialize)this.numFirmaX).BeginInit();
         ((System.ComponentModel.ISupportInitialize)this.numFirmaY).BeginInit();
         ((System.ComponentModel.ISupportInitialize)this.numFirmaTamano).BeginInit();
@@ -119,6 +126,12 @@ partial class MainForm
         this.lblTitulo.Text = "Generador de Certificados";
         this.lblTitulo.TextAlign = ContentAlignment.MiddleCenter;
 
+        this.pictureLogo.BackColor = Color.Transparent;
+        this.pictureLogo.Location = new Point(14, 6);
+        this.pictureLogo.Name = "pictureLogo";
+        this.pictureLogo.Size = new Size(46, 46);
+        this.pictureLogo.SizeMode = PictureBoxSizeMode.Zoom;
+
         this.grpArchivos.Controls.Add(this.btnSeleccionarExcel);
         this.grpArchivos.Controls.Add(this.lblExcel);
         this.grpArchivos.Controls.Add(this.btnSeleccionarPlantilla);
@@ -130,6 +143,7 @@ partial class MainForm
         this.grpArchivos.Controls.Add(this.lblFechaExamen);
         this.grpArchivos.Controls.Add(this.txtFechaExamen);
         this.grpArchivos.Font = new Font("Segoe UI", 10F);
+        this.grpArchivos.Anchor = AnchorStyles.Top | AnchorStyles.Left;
         this.grpArchivos.Location = new Point(20, 60);
         this.grpArchivos.Name = "grpArchivos";
         this.grpArchivos.Size = new Size(580, 300);
@@ -208,9 +222,10 @@ partial class MainForm
         this.grpAjustes.Controls.Add(this.btnActualizarPreview);
         this.grpAjustes.Controls.Add(this.btnCancelar);
         this.grpAjustes.Font = new Font("Segoe UI", 10F);
+        this.grpAjustes.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
         this.grpAjustes.Location = new Point(20, 370);
         this.grpAjustes.Name = "grpAjustes";
-        this.grpAjustes.Size = new Size(580, 430);
+        this.grpAjustes.Size = new Size(580, 480);
         this.grpAjustes.Text = "Ajustes de Campos (X/Y cartesiano, Y ↑ +)";
 
         this.tableAjustes.ColumnCount = 5;
@@ -229,7 +244,8 @@ partial class MainForm
         this.tableAjustes.Controls.Add(this.lblAjusteExamen, 0, 4);
         this.tableAjustes.Controls.Add(this.lblAjusteFecha, 0, 5);
         this.tableAjustes.Controls.Add(this.lblAjusteProfesor, 0, 6);
-        this.tableAjustes.Controls.Add(this.lblAjusteFirma, 0, 7);
+        this.tableAjustes.Controls.Add(this.lblAjusteProfesor2, 0, 7);
+        this.tableAjustes.Controls.Add(this.lblAjusteFirma, 0, 8);
         this.tableAjustes.Controls.Add(this.numNombreX, 1, 1);
         this.tableAjustes.Controls.Add(this.numNombreY, 2, 1);
         this.tableAjustes.Controls.Add(this.numNombreFuente, 3, 1);
@@ -254,13 +270,15 @@ partial class MainForm
         this.tableAjustes.Controls.Add(this.numProfesorY, 2, 6);
         this.tableAjustes.Controls.Add(this.numProfesorFuente, 3, 6);
         this.tableAjustes.Controls.Add(this.numProfesorAncho, 4, 6);
-        this.tableAjustes.Controls.Add(this.numFirmaX, 1, 7);
-        this.tableAjustes.Controls.Add(this.numFirmaY, 2, 7);
-        this.tableAjustes.Controls.Add(this.numFirmaTamano, 3, 7);
-        this.tableAjustes.Controls.Add(this.numFirmaAncho, 4, 7);
+        this.tableAjustes.Controls.Add(this.numProfesor2X, 1, 7);
+        this.tableAjustes.Controls.Add(this.numProfesor2Y, 2, 7);
+        this.tableAjustes.Controls.Add(this.numFirmaX, 1, 8);
+        this.tableAjustes.Controls.Add(this.numFirmaY, 2, 8);
+        this.tableAjustes.Controls.Add(this.numFirmaTamano, 3, 8);
+        this.tableAjustes.Controls.Add(this.numFirmaAncho, 4, 8);
         this.tableAjustes.Location = new Point(12, 30);
         this.tableAjustes.Name = "tableAjustes";
-        this.tableAjustes.RowCount = 8;
+        this.tableAjustes.RowCount = 9;
         this.tableAjustes.RowStyles.Add(new RowStyle(SizeType.Absolute, 35F));
         this.tableAjustes.RowStyles.Add(new RowStyle(SizeType.Absolute, 42F));
         this.tableAjustes.RowStyles.Add(new RowStyle(SizeType.Absolute, 42F));
@@ -269,7 +287,8 @@ partial class MainForm
         this.tableAjustes.RowStyles.Add(new RowStyle(SizeType.Absolute, 42F));
         this.tableAjustes.RowStyles.Add(new RowStyle(SizeType.Absolute, 42F));
         this.tableAjustes.RowStyles.Add(new RowStyle(SizeType.Absolute, 42F));
-        this.tableAjustes.Size = new Size(548, 330);
+        this.tableAjustes.RowStyles.Add(new RowStyle(SizeType.Absolute, 42F));
+        this.tableAjustes.Size = new Size(548, 372);
 
         this.lblColX.Text = "X";
         this.lblColX.TextAlign = ContentAlignment.MiddleCenter;
@@ -302,6 +321,9 @@ partial class MainForm
         this.lblAjusteProfesor.Text = "Profesor";
         this.lblAjusteProfesor.TextAlign = ContentAlignment.MiddleLeft;
         this.lblAjusteProfesor.Dock = DockStyle.Fill;
+        this.lblAjusteProfesor2.Text = "Profesor 2";
+        this.lblAjusteProfesor2.TextAlign = ContentAlignment.MiddleLeft;
+        this.lblAjusteProfesor2.Dock = DockStyle.Fill;
         this.lblAjusteFirma.Text = "Firma";
         this.lblAjusteFirma.TextAlign = ContentAlignment.MiddleLeft;
         this.lblAjusteFirma.Dock = DockStyle.Fill;
@@ -336,13 +358,16 @@ partial class MainForm
         ConfigurarNumericFuente(this.numProfesorFuente, 90, CampoAjuste_Changed);
         ConfigurarNumericRango(this.numProfesorAncho, 0.37m, 0.01m, 1m, CampoAjuste_Changed);
 
+        ConfigurarNumericRango(this.numProfesor2X, 0.70m, 0.01m, 1m, CampoAjuste_Changed);
+        ConfigurarNumericRango(this.numProfesor2Y, 0.20m, 0.01m, 1m, CampoAjuste_Changed);
+
         ConfigurarNumericRango(this.numFirmaX, 0.17m, 0.01m, 1m, CampoAjuste_Changed);
         ConfigurarNumericRango(this.numFirmaY, 0.21m, 0.01m, 1m, CampoAjuste_Changed);
         ConfigurarNumericRango(this.numFirmaTamano, 0.25m, 0.01m, 1m, CampoAjuste_Changed);
         ConfigurarNumericRango(this.numFirmaAncho, 0.00m, 0.00m, 0.00m, CampoAjuste_Changed);
         this.numFirmaAncho.Enabled = false;
 
-        this.btnActualizarPreview.Location = new Point(12, 372);
+        this.btnActualizarPreview.Location = new Point(12, 420);
         this.btnActualizarPreview.Name = "btnActualizarPreview";
         this.btnActualizarPreview.Size = new Size(180, 40);
         this.btnActualizarPreview.Text = "Actualizar Preview";
@@ -352,7 +377,7 @@ partial class MainForm
         this.btnCancelar.BackColor = Color.FromArgb(198, 40, 40);
         this.btnCancelar.FlatStyle = FlatStyle.Flat;
         this.btnCancelar.ForeColor = Color.White;
-        this.btnCancelar.Location = new Point(205, 372);
+        this.btnCancelar.Location = new Point(205, 420);
         this.btnCancelar.Name = "btnCancelar";
         this.btnCancelar.Size = new Size(180, 40);
         this.btnCancelar.Text = "Cancelar";
@@ -362,9 +387,10 @@ partial class MainForm
 
         this.grpPreview.Controls.Add(this.picturePreview);
         this.grpPreview.Font = new Font("Segoe UI", 10F);
+        this.grpPreview.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
         this.grpPreview.Location = new Point(620, 60);
         this.grpPreview.Name = "grpPreview";
-        this.grpPreview.Size = new Size(620, 740);
+        this.grpPreview.Size = new Size(760, 790);
         this.grpPreview.Text = "Preview del Certificado";
 
         this.picturePreview.BackColor = Color.White;
@@ -377,30 +403,34 @@ partial class MainForm
         this.btnGenerar.FlatStyle = FlatStyle.Flat;
         this.btnGenerar.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
         this.btnGenerar.ForeColor = Color.White;
-        this.btnGenerar.Location = new Point(20, 810);
+        this.btnGenerar.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Bottom;
+        this.btnGenerar.Location = new Point(20, 860);
         this.btnGenerar.Name = "btnGenerar";
-        this.btnGenerar.Size = new Size(1220, 50);
+        this.btnGenerar.Size = new Size(1360, 50);
         this.btnGenerar.Text = "Generar Certificados";
         this.btnGenerar.UseVisualStyleBackColor = false;
         this.btnGenerar.Click += BtnGenerar_Click;
 
-        this.progressBar.Location = new Point(20, 870);
+        this.progressBar.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Bottom;
+        this.progressBar.Location = new Point(20, 920);
         this.progressBar.Name = "progressBar";
-        this.progressBar.Size = new Size(1220, 22);
+        this.progressBar.Size = new Size(1360, 22);
         this.progressBar.Style = ProgressBarStyle.Continuous;
 
         this.lblEstado.Font = new Font("Segoe UI", 9F);
         this.lblEstado.ForeColor = Color.DarkSlateGray;
-        this.lblEstado.Location = new Point(20, 895);
+        this.lblEstado.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Bottom;
+        this.lblEstado.Location = new Point(20, 946);
         this.lblEstado.Name = "lblEstado";
-        this.lblEstado.Size = new Size(1220, 25);
+        this.lblEstado.Size = new Size(1360, 25);
         this.lblEstado.Text = "Listo";
         this.lblEstado.TextAlign = ContentAlignment.MiddleCenter;
 
         this.AutoScaleDimensions = new SizeF(7F, 15F);
         this.AutoScaleMode = AutoScaleMode.Font;
         this.BackColor = Color.FromArgb(245, 245, 250);
-        this.ClientSize = new Size(1260, 930);
+        this.ClientSize = new Size(1400, 980);
+        this.Controls.Add(this.pictureLogo);
         this.Controls.Add(this.grpPreview);
         this.Controls.Add(this.grpAjustes);
         this.Controls.Add(this.grpArchivos);
@@ -408,16 +438,18 @@ partial class MainForm
         this.Controls.Add(this.progressBar);
         this.Controls.Add(this.lblEstado);
         this.Controls.Add(this.lblTitulo);
-        this.FormBorderStyle = FormBorderStyle.FixedSingle;
-        this.MaximizeBox = false;
+        this.FormBorderStyle = FormBorderStyle.Sizable;
+        this.MaximizeBox = true;
         this.Name = "MainForm";
         this.StartPosition = FormStartPosition.CenterScreen;
         this.Text = "Generador de Certificados";
+        this.WindowState = FormWindowState.Maximized;
 
         this.grpArchivos.ResumeLayout(false);
         this.grpArchivos.PerformLayout();
         this.grpAjustes.ResumeLayout(false);
         this.tableAjustes.ResumeLayout(false);
+        ((System.ComponentModel.ISupportInitialize)this.pictureLogo).EndInit();
         ((System.ComponentModel.ISupportInitialize)this.numNombreX).EndInit();
         ((System.ComponentModel.ISupportInitialize)this.numNombreY).EndInit();
         ((System.ComponentModel.ISupportInitialize)this.numNombreFuente).EndInit();
@@ -442,6 +474,8 @@ partial class MainForm
         ((System.ComponentModel.ISupportInitialize)this.numProfesorY).EndInit();
         ((System.ComponentModel.ISupportInitialize)this.numProfesorFuente).EndInit();
         ((System.ComponentModel.ISupportInitialize)this.numProfesorAncho).EndInit();
+        ((System.ComponentModel.ISupportInitialize)this.numProfesor2X).EndInit();
+        ((System.ComponentModel.ISupportInitialize)this.numProfesor2Y).EndInit();
         ((System.ComponentModel.ISupportInitialize)this.numFirmaX).EndInit();
         ((System.ComponentModel.ISupportInitialize)this.numFirmaY).EndInit();
         ((System.ComponentModel.ISupportInitialize)this.numFirmaTamano).EndInit();
@@ -474,6 +508,7 @@ partial class MainForm
     }
 
     private Label lblTitulo;
+    private PictureBox pictureLogo;
     private GroupBox grpArchivos;
     private Label lblNumeroExamen;
     private TextBox txtNumeroExamen;
@@ -493,6 +528,7 @@ partial class MainForm
     private Label lblAjusteExamen;
     private Label lblAjusteFecha;
     private Label lblAjusteProfesor;
+    private Label lblAjusteProfesor2;
     private Label lblAjusteFirma;
     private Label lblColX;
     private Label lblColY;
@@ -522,6 +558,8 @@ partial class MainForm
     private NumericUpDown numProfesorY;
     private NumericUpDown numProfesorFuente;
     private NumericUpDown numProfesorAncho;
+    private NumericUpDown numProfesor2X;
+    private NumericUpDown numProfesor2Y;
     private NumericUpDown numFirmaX;
     private NumericUpDown numFirmaY;
     private NumericUpDown numFirmaTamano;

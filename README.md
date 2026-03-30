@@ -13,6 +13,7 @@ Aplicacion de escritorio en C# (.NET 8 / WinForms) para generar certificados PDF
   - No. de examen (se formatea como ordinal: 100 -> 100o)
   - Fecha de examen
   - Profesor
+  - Profesor 2 (opcional, debajo de Profesor)
   - Firma (imagen PNG transparente)
 - Genera un PDF por cada alumno.
 - Muestra preview con guias y controles de posicion/tamano.
@@ -59,6 +60,7 @@ Encabezados en fila 1 y datos desde fila 2.
 | B | Grado |
 | C | Codigo |
 | D | Profesor |
+| E | Profesor2 (opcional) |
 
 Ejemplo de codigo valido: `PL001`.
 

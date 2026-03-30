@@ -16,8 +16,28 @@ public partial class MainForm : Form
     public MainForm()
     {
         InitializeComponent();
+        CargarLogo();
         _generador.RutaFirma = ObtenerRutaFirma();
         ActualizarPreview();
+    }
+
+    private void CargarLogo()
+    {
+        string? rutaLogo = ObtenerRutaLogo();
+        if (string.IsNullOrWhiteSpace(rutaLogo) || !File.Exists(rutaLogo))
+        {
+            return;
+        }
+
+        try
+        {
+            pictureLogo.Image = Image.FromFile(rutaLogo);
+            pictureLogo.BringToFront();
+        }
+        catch
+        {
+            // Si el logo falla al cargar, la app continúa normalmente.
+        }
     }
 
     // ─── Seleccionar archivo Excel ─────────────────────────────────────
@@ -38,13 +58,14 @@ public partial class MainForm : Form
         }
     }
 
-    // ─── Seleccionar plantilla PNG ─────────────────────────────────────
+    // ─── Seleccionar plantilla de imagen ───────────────────────────────
     private void BtnSeleccionarPlantilla_Click(object? sender, EventArgs e)
     {
         using var dialog = new OpenFileDialog
         {
             Title = "Seleccionar plantilla de certificado",
-            Filter = "Imágenes PNG (*.png)|*.png|Todas las imágenes (*.png;*.jpg;*.jpeg)|*.png;*.jpg;*.jpeg",
+            Filter = "Todas las imágenes (*.png;*.jpg;*.jpeg;*.bmp;*.gif;*.tif;*.tiff;*.webp)|*.png;*.jpg;*.jpeg;*.bmp;*.gif;*.tif;*.tiff;*.webp|Imágenes PNG (*.png)|*.png|Imágenes JPEG (*.jpg;*.jpeg)|*.jpg;*.jpeg|Imágenes BMP (*.bmp)|*.bmp|Imágenes GIF (*.gif)|*.gif|Imágenes TIFF (*.tif;*.tiff)|*.tif;*.tiff|Imágenes WEBP (*.webp)|*.webp",
+            FilterIndex = 1,
             RestoreDirectory = true
         };
 
@@ -85,7 +106,7 @@ public partial class MainForm : Form
         }
         if (string.IsNullOrEmpty(_rutaPlantilla))
         {
-            MostrarError("Seleccione la plantilla PNG del certificado.");
+            MostrarError("Seleccione la plantilla de imagen del certificado.");
             return;
         }
         if (string.IsNullOrEmpty(_carpetaDestino))
@@ -300,6 +321,8 @@ public partial class MainForm : Form
         _generador.Layout.ProfesorY = ConvertirYDesdePlanoCartesiano((float)numProfesorY.Value);
         _generador.Layout.ProfesorFontSize = (float)numProfesorFuente.Value;
         _generador.Layout.ProfesorMaxWidth = (float)numProfesorAncho.Value;
+        _generador.Layout.Profesor2X = (float)numProfesor2X.Value;
+        _generador.Layout.Profesor2Y = ConvertirYDesdePlanoCartesiano((float)numProfesor2Y.Value);
 
         _generador.Layout.FirmaX = (float)numFirmaX.Value;
         _generador.Layout.FirmaY = ConvertirYDesdePlanoCartesiano((float)numFirmaY.Value);
@@ -317,6 +340,19 @@ public partial class MainForm : Form
             Path.Combine(baseDir, "Media", "Firma.png"),
             Path.Combine(baseDir, "Firma.png"),
             Path.Combine(Directory.GetCurrentDirectory(), "Media", "Firma.png")
+        };
+
+        return candidates.FirstOrDefault(File.Exists);
+    }
+
+    private static string? ObtenerRutaLogo()
+    {
+        string baseDir = AppContext.BaseDirectory;
+        string[] candidates =
+        {
+            Path.Combine(baseDir, "Media", "Jaguares.png"),
+            Path.Combine(baseDir, "Jaguares.png"),
+            Path.Combine(Directory.GetCurrentDirectory(), "Media", "Jaguares.png")
         };
 
         return candidates.FirstOrDefault(File.Exists);

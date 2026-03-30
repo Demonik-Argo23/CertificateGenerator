@@ -180,6 +180,25 @@ public class CertificateGeneratorService
             dibujarGuias,
             "PROFESOR");
 
+        if (!string.IsNullOrWhiteSpace(alumno.Profesor2))
+        {
+            DibujarCampoTexto(
+                canvas,
+                alumno.Profesor2,
+                ancho,
+                alto,
+                Layout.Profesor2X,
+                Layout.Profesor2Y,
+                Layout.ProfesorFontSize,
+                Layout.ProfesorMaxWidth,
+                Layout.ProfesorColor,
+                Layout.ProfesorFontFamily,
+                false,
+                SKTextAlign.Center,
+                dibujarGuias,
+                "PROFESOR 2");
+        }
+
         DibujarFirma(canvas, ancho, alto, dibujarGuias);
 
         canvas.Flush();
@@ -196,8 +215,9 @@ public class CertificateGeneratorService
         {
             Nombre = "NOMBRE ALUMNO DEMO",
             Grado = "CINTA NEGRA",
-            Codigo = "PL001",
-            Profesor = "Prof. Marybell Cardona Ferrer"
+                        Codigo = "PL001",
+                        Profesor = "Prof. Marybell Cardona Ferrer",
+                        Profesor2 = "Prof. Auxiliar"
         };
 
         var examenDemo = string.IsNullOrWhiteSpace(NumeroExamen) ? "12º" : NumeroExamen;
@@ -387,12 +407,14 @@ public class CertificateLayoutOptions
     public string FechaExamenFontFamily { get; set; } = "Edwardian Script ITC";
     public string FechaExamenColor { get; set; } = "#1a1a2e";
 
-    public float ProfesorX { get; set; } = 0.17f;
-    public float ProfesorY { get; set; } = 0.79f;
+    public float ProfesorX { get; set; } = 0.70f;
+    public float ProfesorY { get; set; } = 0.77f;
     public float ProfesorFontSize { get; set; } = 90f;
-    public float ProfesorMaxWidth { get; set; } = 0.40f;
+    public float ProfesorMaxWidth { get; set; } = 0.37f;
     public string ProfesorFontFamily { get; set; } = "Edwardian Script ITC";
     public string ProfesorColor { get; set; } = "#1a1a2e";
+    public float Profesor2X { get; set; } = 0.70f;
+    public float Profesor2Y { get; set; } = 0.80f;
 
     public float FirmaX { get; set; } = 0.17f;
     public float FirmaY { get; set; } = 0.79f;
