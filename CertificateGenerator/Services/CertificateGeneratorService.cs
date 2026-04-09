@@ -30,11 +30,37 @@ public class CertificateGeneratorService
 
         // 2. Generar el PDF con QuestPDF
         var nombreArchivo = alumno.GenerarNombreArchivo();
-        var rutaPdf = Path.Combine(carpetaDestino, nombreArchivo);
+        var rutaPdf = ObtenerRutaPdfDisponible(carpetaDestino, nombreArchivo);
 
         GenerarPdf(imagenConTexto, rutaPdf);
 
         return rutaPdf;
+    }
+
+    private static string ObtenerRutaPdfDisponible(string carpetaDestino, string nombreArchivo)
+    {
+        var rutaInicial = Path.Combine(carpetaDestino, nombreArchivo);
+        if (!File.Exists(rutaInicial))
+        {
+            return rutaInicial;
+        }
+
+        var nombreBase = Path.GetFileNameWithoutExtension(nombreArchivo);
+        var extension = Path.GetExtension(nombreArchivo);
+
+        int intento = 2;
+        while (true)
+        {
+            var nombreConSufijo = $"{nombreBase} ({intento}){extension}";
+            var rutaCandidata = Path.Combine(carpetaDestino, nombreConSufijo);
+
+            if (!File.Exists(rutaCandidata))
+            {
+                return rutaCandidata;
+            }
+
+            intento++;
+        }
     }
 
     /// <summary>
@@ -213,9 +239,9 @@ public class CertificateGeneratorService
     {
         var alumnoDemo = new Alumno
         {
-            Nombre = "NOMBRE ALUMNO DEMO",
+            Nombre = "NOMBRE ALUMNO ",
             Grado = "CINTA NEGRA",
-                        Codigo = "PL001",
+                        Codigo = "AA000",
                         Profesor = "Prof. Marybell Cardona Ferrer",
                         Profesor2 = "Prof. Auxiliar"
         };

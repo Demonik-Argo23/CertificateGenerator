@@ -30,6 +30,6 @@ public class Alumno
             .Replace(".", "")
             .Replace(",", "");
 
-        return $"certificado_{seguro}.pdf";
+        return $"{seguro}.pdf";
     }
 }

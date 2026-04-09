@@ -29,6 +29,7 @@ partial class MainForm
         this.btnSeleccionarCarpeta = new Button();
         this.lblCarpeta = new Label();
         this.grpAjustes = new GroupBox();
+        this.panelAjustesScroll = new Panel();
         this.tableAjustes = new TableLayoutPanel();
         this.lblAjusteNombre = new Label();
         this.lblAjusteGrado = new Label();
@@ -81,6 +82,7 @@ partial class MainForm
         this.lblEstado = new Label();
         this.grpArchivos.SuspendLayout();
         this.grpAjustes.SuspendLayout();
+        this.panelAjustesScroll.SuspendLayout();
         this.tableAjustes.SuspendLayout();
         ((System.ComponentModel.ISupportInitialize)this.pictureLogo).BeginInit();
         ((System.ComponentModel.ISupportInitialize)this.numNombreX).BeginInit();
@@ -146,94 +148,101 @@ partial class MainForm
         this.grpArchivos.Anchor = AnchorStyles.Top | AnchorStyles.Left;
         this.grpArchivos.Location = new Point(20, 60);
         this.grpArchivos.Name = "grpArchivos";
-        this.grpArchivos.Size = new Size(580, 300);
+        this.grpArchivos.Size = new Size(450, 280);
         this.grpArchivos.Text = "Configuración";
 
-        this.lblNumeroExamen.Location = new Point(15, 200);
+        this.lblNumeroExamen.Location = new Point(15, 185);
         this.lblNumeroExamen.Name = "lblNumeroExamen";
-        this.lblNumeroExamen.Size = new Size(170, 30);
+        this.lblNumeroExamen.Size = new Size(140, 28);
         this.lblNumeroExamen.Text = "Número de examen:";
         this.lblNumeroExamen.TextAlign = ContentAlignment.MiddleLeft;
 
-        this.txtNumeroExamen.Location = new Point(195, 202);
+        this.txtNumeroExamen.Location = new Point(160, 187);
         this.txtNumeroExamen.Name = "txtNumeroExamen";
-        this.txtNumeroExamen.Size = new Size(120, 25);
+        this.txtNumeroExamen.Size = new Size(100, 25);
         this.txtNumeroExamen.Text = "100";
         this.txtNumeroExamen.TextChanged += CampoAjuste_Changed;
 
-        this.lblFechaExamen.Location = new Point(15, 240);
+        this.lblFechaExamen.Location = new Point(15, 220);
         this.lblFechaExamen.Name = "lblFechaExamen";
-        this.lblFechaExamen.Size = new Size(170, 30);
+        this.lblFechaExamen.Size = new Size(140, 28);
         this.lblFechaExamen.Text = "Fecha de examen:";
         this.lblFechaExamen.TextAlign = ContentAlignment.MiddleLeft;
 
-        this.txtFechaExamen.Location = new Point(195, 242);
+        this.txtFechaExamen.Location = new Point(160, 222);
         this.txtFechaExamen.Name = "txtFechaExamen";
-        this.txtFechaExamen.Size = new Size(350, 25);
+        this.txtFechaExamen.Size = new Size(275, 25);
         this.txtFechaExamen.Text = "Querétaro, Qro., a DIA de MES de AÑO";
         this.txtFechaExamen.TextChanged += CampoAjuste_Changed;
 
-        this.btnSeleccionarExcel.Location = new Point(15, 35);
+        this.btnSeleccionarExcel.Location = new Point(15, 30);
         this.btnSeleccionarExcel.Name = "btnSeleccionarExcel";
-        this.btnSeleccionarExcel.Size = new Size(170, 40);
+        this.btnSeleccionarExcel.Size = new Size(140, 35);
         this.btnSeleccionarExcel.Text = "Seleccionar Excel";
         this.btnSeleccionarExcel.UseVisualStyleBackColor = true;
         this.btnSeleccionarExcel.Click += BtnSeleccionarExcel_Click;
 
         this.lblExcel.AutoEllipsis = true;
         this.lblExcel.ForeColor = Color.Gray;
-        this.lblExcel.Location = new Point(195, 35);
+        this.lblExcel.Location = new Point(160, 30);
         this.lblExcel.Name = "lblExcel";
-        this.lblExcel.Size = new Size(370, 40);
+        this.lblExcel.Size = new Size(275, 35);
         this.lblExcel.Text = "Ningún archivo seleccionado";
         this.lblExcel.TextAlign = ContentAlignment.MiddleLeft;
 
-        this.btnSeleccionarPlantilla.Location = new Point(15, 90);
+        this.btnSeleccionarPlantilla.Location = new Point(15, 80);
         this.btnSeleccionarPlantilla.Name = "btnSeleccionarPlantilla";
-        this.btnSeleccionarPlantilla.Size = new Size(170, 40);
+        this.btnSeleccionarPlantilla.Size = new Size(140, 35);
         this.btnSeleccionarPlantilla.Text = "Seleccionar Plantilla";
         this.btnSeleccionarPlantilla.UseVisualStyleBackColor = true;
         this.btnSeleccionarPlantilla.Click += BtnSeleccionarPlantilla_Click;
 
         this.lblPlantilla.AutoEllipsis = true;
         this.lblPlantilla.ForeColor = Color.Gray;
-        this.lblPlantilla.Location = new Point(195, 90);
+        this.lblPlantilla.Location = new Point(160, 80);
         this.lblPlantilla.Name = "lblPlantilla";
-        this.lblPlantilla.Size = new Size(370, 40);
+        this.lblPlantilla.Size = new Size(275, 35);
         this.lblPlantilla.Text = "Ningún archivo seleccionado";
         this.lblPlantilla.TextAlign = ContentAlignment.MiddleLeft;
 
-        this.btnSeleccionarCarpeta.Location = new Point(15, 145);
+        this.btnSeleccionarCarpeta.Location = new Point(15, 130);
         this.btnSeleccionarCarpeta.Name = "btnSeleccionarCarpeta";
-        this.btnSeleccionarCarpeta.Size = new Size(170, 40);
+        this.btnSeleccionarCarpeta.Size = new Size(140, 35);
         this.btnSeleccionarCarpeta.Text = "Seleccionar Carpeta";
         this.btnSeleccionarCarpeta.UseVisualStyleBackColor = true;
         this.btnSeleccionarCarpeta.Click += BtnSeleccionarCarpeta_Click;
 
         this.lblCarpeta.AutoEllipsis = true;
         this.lblCarpeta.ForeColor = Color.Gray;
-        this.lblCarpeta.Location = new Point(195, 145);
+        this.lblCarpeta.Location = new Point(160, 130);
         this.lblCarpeta.Name = "lblCarpeta";
-        this.lblCarpeta.Size = new Size(370, 40);
+        this.lblCarpeta.Size = new Size(275, 35);
         this.lblCarpeta.Text = "Ninguna carpeta seleccionada";
         this.lblCarpeta.TextAlign = ContentAlignment.MiddleLeft;
 
-        this.grpAjustes.Controls.Add(this.tableAjustes);
+        this.grpAjustes.Controls.Add(this.panelAjustesScroll);
         this.grpAjustes.Controls.Add(this.btnActualizarPreview);
         this.grpAjustes.Controls.Add(this.btnCancelar);
-        this.grpAjustes.Font = new Font("Segoe UI", 10F);
+        this.grpAjustes.Font = new Font("Segoe UI", 9F);
         this.grpAjustes.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
-        this.grpAjustes.Location = new Point(20, 370);
+        this.grpAjustes.Location = new Point(20, 350);
         this.grpAjustes.Name = "grpAjustes";
-        this.grpAjustes.Size = new Size(580, 480);
+        this.grpAjustes.Size = new Size(450, 420);
         this.grpAjustes.Text = "Ajustes de Campos (X/Y cartesiano, Y ↑ +)";
 
+        this.panelAjustesScroll.Controls.Add(this.tableAjustes);
+        this.panelAjustesScroll.AutoScroll = true;
+        this.panelAjustesScroll.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+        this.panelAjustesScroll.Location = new Point(10, 25);
+        this.panelAjustesScroll.Name = "panelAjustesScroll";
+        this.panelAjustesScroll.Size = new Size(430, 320);
+
         this.tableAjustes.ColumnCount = 5;
-        this.tableAjustes.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 120F));
+        this.tableAjustes.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 80F));
+        this.tableAjustes.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 75F));
+        this.tableAjustes.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 75F));
         this.tableAjustes.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 90F));
         this.tableAjustes.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 90F));
-        this.tableAjustes.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 120F));
-        this.tableAjustes.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 120F));
         this.tableAjustes.Controls.Add(this.lblColX, 1, 0);
         this.tableAjustes.Controls.Add(this.lblColY, 2, 0);
         this.tableAjustes.Controls.Add(this.lblColFuente, 3, 0);
@@ -276,19 +285,20 @@ partial class MainForm
         this.tableAjustes.Controls.Add(this.numFirmaY, 2, 8);
         this.tableAjustes.Controls.Add(this.numFirmaTamano, 3, 8);
         this.tableAjustes.Controls.Add(this.numFirmaAncho, 4, 8);
-        this.tableAjustes.Location = new Point(12, 30);
+        this.tableAjustes.Location = new Point(0, 0);
         this.tableAjustes.Name = "tableAjustes";
         this.tableAjustes.RowCount = 9;
+        this.tableAjustes.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
         this.tableAjustes.RowStyles.Add(new RowStyle(SizeType.Absolute, 35F));
-        this.tableAjustes.RowStyles.Add(new RowStyle(SizeType.Absolute, 42F));
-        this.tableAjustes.RowStyles.Add(new RowStyle(SizeType.Absolute, 42F));
-        this.tableAjustes.RowStyles.Add(new RowStyle(SizeType.Absolute, 42F));
-        this.tableAjustes.RowStyles.Add(new RowStyle(SizeType.Absolute, 42F));
-        this.tableAjustes.RowStyles.Add(new RowStyle(SizeType.Absolute, 42F));
-        this.tableAjustes.RowStyles.Add(new RowStyle(SizeType.Absolute, 42F));
-        this.tableAjustes.RowStyles.Add(new RowStyle(SizeType.Absolute, 42F));
-        this.tableAjustes.RowStyles.Add(new RowStyle(SizeType.Absolute, 42F));
-        this.tableAjustes.Size = new Size(548, 372);
+        this.tableAjustes.RowStyles.Add(new RowStyle(SizeType.Absolute, 35F));
+        this.tableAjustes.RowStyles.Add(new RowStyle(SizeType.Absolute, 35F));
+        this.tableAjustes.RowStyles.Add(new RowStyle(SizeType.Absolute, 35F));
+        this.tableAjustes.RowStyles.Add(new RowStyle(SizeType.Absolute, 35F));
+        this.tableAjustes.RowStyles.Add(new RowStyle(SizeType.Absolute, 35F));
+        this.tableAjustes.RowStyles.Add(new RowStyle(SizeType.Absolute, 35F));
+        this.tableAjustes.RowStyles.Add(new RowStyle(SizeType.Absolute, 35F));
+        this.tableAjustes.Size = new Size(410, 320);
+        this.tableAjustes.AutoSize = true;
 
         this.lblColX.Text = "X";
         this.lblColX.TextAlign = ContentAlignment.MiddleCenter;
@@ -367,19 +377,21 @@ partial class MainForm
         ConfigurarNumericRango(this.numFirmaAncho, 0.00m, 0.00m, 0.00m, CampoAjuste_Changed);
         this.numFirmaAncho.Enabled = false;
 
-        this.btnActualizarPreview.Location = new Point(12, 420);
+        this.btnActualizarPreview.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+        this.btnActualizarPreview.Location = new Point(10, 360);
         this.btnActualizarPreview.Name = "btnActualizarPreview";
-        this.btnActualizarPreview.Size = new Size(180, 40);
+        this.btnActualizarPreview.Size = new Size(140, 40);
         this.btnActualizarPreview.Text = "Actualizar Preview";
         this.btnActualizarPreview.UseVisualStyleBackColor = true;
         this.btnActualizarPreview.Click += BtnActualizarPreview_Click;
 
+        this.btnCancelar.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
         this.btnCancelar.BackColor = Color.FromArgb(198, 40, 40);
         this.btnCancelar.FlatStyle = FlatStyle.Flat;
         this.btnCancelar.ForeColor = Color.White;
-        this.btnCancelar.Location = new Point(205, 420);
+        this.btnCancelar.Location = new Point(160, 360);
         this.btnCancelar.Name = "btnCancelar";
-        this.btnCancelar.Size = new Size(180, 40);
+        this.btnCancelar.Size = new Size(140, 40);
         this.btnCancelar.Text = "Cancelar";
         this.btnCancelar.UseVisualStyleBackColor = false;
         this.btnCancelar.Enabled = false;
@@ -388,9 +400,9 @@ partial class MainForm
         this.grpPreview.Controls.Add(this.picturePreview);
         this.grpPreview.Font = new Font("Segoe UI", 10F);
         this.grpPreview.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-        this.grpPreview.Location = new Point(620, 60);
+        this.grpPreview.Location = new Point(490, 60);
         this.grpPreview.Name = "grpPreview";
-        this.grpPreview.Size = new Size(760, 790);
+        this.grpPreview.Size = new Size(490, 710);
         this.grpPreview.Text = "Preview del Certificado";
 
         this.picturePreview.BackColor = Color.White;
@@ -404,32 +416,33 @@ partial class MainForm
         this.btnGenerar.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
         this.btnGenerar.ForeColor = Color.White;
         this.btnGenerar.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Bottom;
-        this.btnGenerar.Location = new Point(20, 860);
+        this.btnGenerar.Location = new Point(20, 780);
         this.btnGenerar.Name = "btnGenerar";
-        this.btnGenerar.Size = new Size(1360, 50);
+        this.btnGenerar.Size = new Size(960, 45);
         this.btnGenerar.Text = "Generar Certificados";
         this.btnGenerar.UseVisualStyleBackColor = false;
         this.btnGenerar.Click += BtnGenerar_Click;
 
         this.progressBar.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Bottom;
-        this.progressBar.Location = new Point(20, 920);
+        this.progressBar.Location = new Point(20, 832);
         this.progressBar.Name = "progressBar";
-        this.progressBar.Size = new Size(1360, 22);
+        this.progressBar.Size = new Size(960, 20);
         this.progressBar.Style = ProgressBarStyle.Continuous;
 
         this.lblEstado.Font = new Font("Segoe UI", 9F);
         this.lblEstado.ForeColor = Color.DarkSlateGray;
         this.lblEstado.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Bottom;
-        this.lblEstado.Location = new Point(20, 946);
+        this.lblEstado.Location = new Point(20, 856);
         this.lblEstado.Name = "lblEstado";
-        this.lblEstado.Size = new Size(1360, 25);
+        this.lblEstado.Size = new Size(960, 22);
         this.lblEstado.Text = "Listo";
         this.lblEstado.TextAlign = ContentAlignment.MiddleCenter;
 
         this.AutoScaleDimensions = new SizeF(7F, 15F);
         this.AutoScaleMode = AutoScaleMode.Font;
         this.BackColor = Color.FromArgb(245, 245, 250);
-        this.ClientSize = new Size(1400, 980);
+        this.ClientSize = new Size(1000, 890);
+        this.MinimumSize = new Size(900, 750);
         this.Controls.Add(this.pictureLogo);
         this.Controls.Add(this.grpPreview);
         this.Controls.Add(this.grpAjustes);
@@ -448,6 +461,8 @@ partial class MainForm
         this.grpArchivos.ResumeLayout(false);
         this.grpArchivos.PerformLayout();
         this.grpAjustes.ResumeLayout(false);
+        this.panelAjustesScroll.ResumeLayout(false);
+        this.panelAjustesScroll.PerformLayout();
         this.tableAjustes.ResumeLayout(false);
         ((System.ComponentModel.ISupportInitialize)this.pictureLogo).EndInit();
         ((System.ComponentModel.ISupportInitialize)this.numNombreX).EndInit();
@@ -521,6 +536,7 @@ partial class MainForm
     private Button btnSeleccionarCarpeta;
     private Label lblCarpeta;
     private GroupBox grpAjustes;
+    private Panel panelAjustesScroll;
     private TableLayoutPanel tableAjustes;
     private Label lblAjusteNombre;
     private Label lblAjusteGrado;

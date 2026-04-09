@@ -226,7 +226,7 @@ public partial class MainForm : Form
             if (errores.Count == 0)
             {
                 progressBar.Value = progressBar.Maximum;
-                lblEstado.Text = $"✅ {alumnos.Count} certificados generados correctamente.";
+                lblEstado.Text = $"{alumnos.Count} certificados generados correctamente.";
                 MessageBox.Show(
                     $"Se generaron {alumnos.Count} certificados en:\n{_carpetaDestino}",
                     "Completado",
@@ -236,7 +236,7 @@ public partial class MainForm : Form
             else
             {
                 int exitosos = alumnos.Count - errores.Count;
-                lblEstado.Text = $"⚠️ {exitosos} generados, {errores.Count} errores.";
+                lblEstado.Text = $"{exitosos} generados, {errores.Count} errores.";
                 MessageBox.Show(
                     $"Se generaron {exitosos} certificados.\n\nErrores:\n" +
                     string.Join("\n", errores),
